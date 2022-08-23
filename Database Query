@@ -1,0 +1,78 @@
+create database Patient_Management
+go
+use Patient_Management
+go
+create table Patient
+(
+	PatientId int primary key,
+	Name nvarchar(30) not null,
+	Age int not null,
+	Phonenumber int not null,
+	Address nvarchar(30) not null
+)
+go 
+create table Doctor
+(
+	DoctorId int primary key,
+	Name nvarchar(30) not null,
+	Age int not null,
+	Phonenumber int not null
+)
+go 
+create table Doctor_Patient
+(
+	MedicalexaminationId int primary key,
+	DayOfTheExamination date not null,
+	PatientId int FOREIGN KEY(PatientId) REFERENCES Patient(PatientId),
+	DoctorId int FOREIGN KEY(DoctorId) REFERENCES Doctor(DoctorId)
+)
+go
+create table Symptom
+(
+	SymptomsId int primary key,
+	Dizzy nvarchar(20) not null,
+	Cough nvarchar(20) not null,
+	Insomnia nvarchar(20) not null,
+	Depression nvarchar(20) not null,
+	PatientId int FOREIGN KEY(PatientId) REFERENCES Patient(PatientId)
+)
+go
+create table Prescription
+(
+	PrescriptionId int primary key,
+	NameOfMedicine nvarchar(25) not null,
+	Type nvarchar(15) null,
+	PatientId int FOREIGN KEY(PatientId) REFERENCES Patient(PatientId),
+	DoctorId int FOREIGN KEY(DoctorId) REFERENCES Doctor(DoctorId)
+)
+go
+create table Receipt
+(
+	Idbill int primary key,
+	DateFounded date not null,
+	PatientId int FOREIGN KEY(PatientId) REFERENCES Patient (PatientId),
+	DoctorId int FOREIGN KEY(DoctorId) REFERENCES Doctor (DoctorId),
+	PrescriptionId int FOREIGN KEY(PrescriptionId) REFERENCES Prescription(PrescriptionId)
+)
+go
+create table Users
+(
+	userid int IDENTITY(1,1) PRIMARY KEY,
+	username varchar(50) not null,
+	password varchar(50) not null,
+	role varchar(30)
+)
+go
+INSERT INTO Patient(PatientId, Name, Age, Phonenumber, Address) 
+values(1,'Hoang',20,0126547928,'Ha Noi'),
+	(2,'Minh',20,0126547989,'Ha Noi')
+go
+select * from Patient
+go 
+INSERT INTO Doctor(DoctorId, Name, Age, Phonenumber) 
+values(1,'Hoang',35,0126747928),
+	(2,'Minh',40,0136547989),
+	(3,'Nguyen',45,0136557989),
+	(4,'Dung',25,0136559989)
+go
+select * from Doctor
